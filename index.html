@@ -12,7 +12,7 @@
     h1, h2 {
       color: #333;
     }
-    /* Grid container for links (cards) in each section */
+    /* Grid container for cards */
     .grid-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -57,6 +57,12 @@
       font-size: 0.9em;
       color: #555;
     }
+    .flag-icon {
+      width: 32px;
+      height: auto;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -75,50 +81,57 @@
   </div>
   
   <script>
-    // Pre-production links (incognito mode recommended)
+    // Helper function to generate a flag image URL using the country code.
+    function getFlagUrl(code) {
+      return `https://flagcdn.com/32x24/${code}.png`;
+    }
+    
+    // Pre-production links with flag codes.
     const preprodWebsites = [
-      { id: 1, title: 'New Caledonie (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/nc/', mode: 'incognito', description: 'Pre-production TemC+ app for New Caledonie.' },
-      { id: 2, title: 'Angola (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ao/', mode: 'incognito', description: 'Pre-production TemC+ app for Angola.' },
-      { id: 3, title: 'Cambodia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/kh/', mode: 'incognito', description: 'Pre-production TemC+ app for Cambodia.' },
-      { id: 4, title: 'Egypt (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/eg/', mode: 'incognito', description: 'Pre-production TemC+ app for Egypt.' },
-      { id: 5, title: 'Guinea Equatorial (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/gq/', mode: 'incognito', description: 'Pre-production TemC+ app for Guinea Equatorial.' },
-      { id: 6, title: 'Fiji (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/fj/', mode: 'incognito', description: 'Pre-production TemC+ app for Fiji.' },
-      { id: 7, title: 'French Polynesia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/pf/', mode: 'incognito', description: 'Pre-production TemC+ app for French Polynesia.' },
-      { id: 8, title: 'Jordan (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/jo/', mode: 'incognito', description: 'Pre-production TemC+ app for Jordan.' },
-      { id: 9, title: 'Mali (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ml/', mode: 'incognito', description: 'Pre-production TemC+ app for Mali.' },
-      { id: 10, title: 'Kenya (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ke/', mode: 'incognito', description: 'Pre-production TemC+ app for Kenya.' },
-      { id: 11, title: 'Madagascar (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mg/', mode: 'incognito', description: 'Pre-production TemC+ app for Madagascar.' },
-      { id: 12, title: 'Mauritius (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mu/', mode: 'incognito', description: 'Pre-production TemC+ app for Mauritius.' },
-      { id: 13, title: 'Malawi (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mw/', mode: 'incognito', description: 'Pre-production TemC+ app for Malawi.' },
-      { id: 14, title: 'PNG (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/pg/', mode: 'incognito', description: 'Pre-production TemC+ app for PNG.' },
-      { id: 15, title: 'Senegal (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/sn/', mode: 'incognito', description: 'Pre-production TemC+ app for Senegal.' },
-      { id: 16, title: 'Tanzania (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/tz/', mode: 'incognito', description: 'Pre-production TemC+ app for Tanzania.' },
-      { id: 17, title: 'Togo (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/tg/', mode: 'incognito', description: 'Pre-production TemC+ app for Togo.' },
-      { id: 18, title: 'Uganda (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ug/', mode: 'incognito', description: 'Pre-production TemC+ app for Uganda.' },
-      { id: 19, title: 'Zambia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/zm/', mode: 'incognito', description: 'Pre-production TemC+ app for Zambia.' }
+      { id: 1, title: 'New Caledonie (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/nc/', mode: 'incognito', description: 'Pre-production TemC+ app for New Caledonie.', flag: 'nc' },
+      { id: 2, title: 'Angola (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ao/', mode: 'incognito', description: 'Pre-production TemC+ app for Angola.', flag: 'ao' },
+      { id: 3, title: 'Cambodia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/kh/', mode: 'incognito', description: 'Pre-production TemC+ app for Cambodia.', flag: 'kh' },
+      { id: 4, title: 'Egypt (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/eg/', mode: 'incognito', description: 'Pre-production TemC+ app for Egypt.', flag: 'eg' },
+      { id: 5, title: 'Guinea Equatorial (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/gq/', mode: 'incognito', description: 'Pre-production TemC+ app for Guinea Equatorial.', flag: 'gq' },
+      { id: 6, title: 'Fiji (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/fj/', mode: 'incognito', description: 'Pre-production TemC+ app for Fiji.', flag: 'fj' },
+      { id: 7, title: 'French Polynesia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/pf/', mode: 'incognito', description: 'Pre-production TemC+ app for French Polynesia.', flag: 'pf' },
+      { id: 8, title: 'Jordan (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/jo/', mode: 'incognito', description: 'Pre-production TemC+ app for Jordan.', flag: 'jo' },
+      { id: 9, title: 'Mali (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ml/', mode: 'incognito', description: 'Pre-production TemC+ app for Mali.', flag: 'ml' },
+      { id: 10, title: 'Kenya (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ke/', mode: 'incognito', description: 'Pre-production TemC+ app for Kenya.', flag: 'ke' },
+      { id: 11, title: 'Madagascar (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mg/', mode: 'incognito', description: 'Pre-production TemC+ app for Madagascar.', flag: 'mg' },
+      { id: 12, title: 'Mauritius (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mu/', mode: 'incognito', description: 'Pre-production TemC+ app for Mauritius.', flag: 'mu' },
+      { id: 13, title: 'Malawi (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/mw/', mode: 'incognito', description: 'Pre-production TemC+ app for Malawi.', flag: 'mw' },
+      { id: 14, title: 'PNG (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/pg/', mode: 'incognito', description: 'Pre-production TemC+ app for PNG.', flag: 'pg' },
+      { id: 15, title: 'Senegal (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/sn/', mode: 'incognito', description: 'Pre-production TemC+ app for Senegal.', flag: 'sn' },
+      { id: 16, title: 'Tanzania (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/tz/', mode: 'incognito', description: 'Pre-production TemC+ app for Tanzania.', flag: 'tz' },
+      { id: 17, title: 'Togo (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/tg/', mode: 'incognito', description: 'Pre-production TemC+ app for Togo.', flag: 'tg' },
+      { id: 18, title: 'Uganda (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ug/', mode: 'incognito', description: 'Pre-production TemC+ app for Uganda.', flag: 'ug' },
+      { id: 19, title: 'Zambia (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/zm/', mode: 'incognito', description: 'Pre-production TemC+ app for Zambia.', flag: 'zm' },
+      { id: 20, title: 'Ivory Coast (Pre-Production)', url: 'https://bomobilitybusinesspp.totalenergies.com/ci/', mode: 'incognito', description: 'Pre-production TemC+ app for Ivory Coast.', flag: 'ci' }
     ];
     
-    // Production links (normal mode)
+    // Production links (normal mode) with flag codes.
     const prodWebsites = [
-      { id: 101, title: 'New Caledonie (Production)', url: 'https://bomobilitybusiness.totalenergies.com/nc/', mode: 'normal', description: 'Production TemC+ app for New Caledonie.' },
-      { id: 102, title: 'Angola (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ao/', mode: 'normal', description: 'Production TemC+ app for Angola.' },
-      { id: 103, title: 'Cambodia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/kh/', mode: 'normal', description: 'Production TemC+ app for Cambodia.' },
-      { id: 104, title: 'Egypt (Production)', url: 'https://bomobilitybusiness.totalenergies.com/eg/', mode: 'normal', description: 'Production TemC+ app for Egypt.' },
-      { id: 105, title: 'Guinea Equatorial (Production)', url: 'https://bomobilitybusiness.totalenergies.com/gq/', mode: 'normal', description: 'Production TemC+ app for Guinea Equatorial.' },
-      { id: 106, title: 'Fiji (Production)', url: 'https://bomobilitybusiness.totalenergies.com/fj/', mode: 'normal', description: 'Production TemC+ app for Fiji.' },
-      { id: 107, title: 'French Polynesia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/pf/', mode: 'normal', description: 'Production TemC+ app for French Polynesia.' },
-      { id: 108, title: 'Jordan (Production)', url: 'https://bomobilitybusiness.totalenergies.com/jo/', mode: 'normal', description: 'Production TemC+ app for Jordan.' },
-      { id: 109, title: 'Mali (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ml/', mode: 'normal', description: 'Production TemC+ app for Mali.' },
-      { id: 110, title: 'Kenya (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ke/', mode: 'normal', description: 'Production TemC+ app for Kenya.' },
-      { id: 111, title: 'Madagascar (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mg/', mode: 'normal', description: 'Production TemC+ app for Madagascar.' },
-      { id: 112, title: 'Mauritius (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mu/', mode: 'normal', description: 'Production TemC+ app for Mauritius.' },
-      { id: 113, title: 'Malawi (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mw/', mode: 'normal', description: 'Production TemC+ app for Malawi.' },
-      { id: 114, title: 'PNG (Production)', url: 'https://bomobilitybusiness.totalenergies.com/pg/', mode: 'normal', description: 'Production TemC+ app for PNG.' },
-      { id: 115, title: 'Senegal (Production)', url: 'https://bomobilitybusiness.totalenergies.com/sn/', mode: 'normal', description: 'Production TemC+ app for Senegal.' },
-      { id: 116, title: 'Tanzania (Production)', url: 'https://bomobilitybusiness.totalenergies.com/tz/', mode: 'normal', description: 'Production TemC+ app for Tanzania.' },
-      { id: 117, title: 'Togo (Production)', url: 'https://bomobilitybusiness.totalenergies.com/tg/', mode: 'normal', description: 'Production TemC+ app for Togo.' },
-      { id: 118, title: 'Uganda (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ug/', mode: 'normal', description: 'Production TemC+ app for Uganda.' },
-      { id: 119, title: 'Zambia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/zm/', mode: 'normal', description: 'Production TemC+ app for Zambia.' }
+      { id: 101, title: 'New Caledonie (Production)', url: 'https://bomobilitybusiness.totalenergies.com/nc/', mode: 'normal', description: 'Production TemC+ app for New Caledonie.', flag: 'nc' },
+      { id: 102, title: 'Angola (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ao/', mode: 'normal', description: 'Production TemC+ app for Angola.', flag: 'ao' },
+      { id: 103, title: 'Cambodia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/kh/', mode: 'normal', description: 'Production TemC+ app for Cambodia.', flag: 'kh' },
+      { id: 104, title: 'Egypt (Production)', url: 'https://bomobilitybusiness.totalenergies.com/eg/', mode: 'normal', description: 'Production TemC+ app for Egypt.', flag: 'eg' },
+      { id: 105, title: 'Guinea Equatorial (Production)', url: 'https://bomobilitybusiness.totalenergies.com/gq/', mode: 'normal', description: 'Production TemC+ app for Guinea Equatorial.', flag: 'gq' },
+      { id: 106, title: 'Fiji (Production)', url: 'https://bomobilitybusiness.totalenergies.com/fj/', mode: 'normal', description: 'Production TemC+ app for Fiji.', flag: 'fj' },
+      { id: 107, title: 'French Polynesia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/pf/', mode: 'normal', description: 'Production TemC+ app for French Polynesia.', flag: 'pf' },
+      { id: 108, title: 'Jordan (Production)', url: 'https://bomobilitybusiness.totalenergies.com/jo/', mode: 'normal', description: 'Production TemC+ app for Jordan.', flag: 'jo' },
+      { id: 109, title: 'Mali (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ml/', mode: 'normal', description: 'Production TemC+ app for Mali.', flag: 'ml' },
+      { id: 110, title: 'Kenya (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ke/', mode: 'normal', description: 'Production TemC+ app for Kenya.', flag: 'ke' },
+      { id: 111, title: 'Madagascar (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mg/', mode: 'normal', description: 'Production TemC+ app for Madagascar.', flag: 'mg' },
+      { id: 112, title: 'Mauritius (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mu/', mode: 'normal', description: 'Production TemC+ app for Mauritius.', flag: 'mu' },
+      { id: 113, title: 'Malawi (Production)', url: 'https://bomobilitybusiness.totalenergies.com/mw/', mode: 'normal', description: 'Production TemC+ app for Malawi.', flag: 'mw' },
+      { id: 114, title: 'PNG (Production)', url: 'https://bomobilitybusiness.totalenergies.com/pg/', mode: 'normal', description: 'Production TemC+ app for PNG.', flag: 'pg' },
+      { id: 115, title: 'Senegal (Production)', url: 'https://bomobilitybusiness.totalenergies.com/sn/', mode: 'normal', description: 'Production TemC+ app for Senegal.', flag: 'sn' },
+      { id: 116, title: 'Tanzania (Production)', url: 'https://bomobilitybusiness.totalenergies.com/tz/', mode: 'normal', description: 'Production TemC+ app for Tanzania.', flag: 'tz' },
+      { id: 117, title: 'Togo (Production)', url: 'https://bomobilitybusiness.totalenergies.com/tg/', mode: 'normal', description: 'Production TemC+ app for Togo.', flag: 'tg' },
+      { id: 118, title: 'Uganda (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ug/', mode: 'normal', description: 'Production TemC+ app for Uganda.', flag: 'ug' },
+      { id: 119, title: 'Zambia (Production)', url: 'https://bomobilitybusiness.totalenergies.com/zm/', mode: 'normal', description: 'Production TemC+ app for Zambia.', flag: 'zm' },
+      { id: 120, title: 'Ivory Coast (Production)', url: 'https://bomobilitybusiness.totalenergies.com/ci/', mode: 'normal', description: 'Production TemC+ app for Ivory Coast.', flag: 'ci' }
     ];
     
     // Load metrics from localStorage for a given id.
@@ -146,15 +159,13 @@
       }
     }
     
-    // Handle left-click on an open link: update metrics and alert for incognito links.
+    // Handle left-click on an open link: update metrics and show instructions for incognito links.
     function handleLinkClick(event, site) {
-      // Check if it's a left click only.
       if (event.button === 0) {
         const updatedStats = updateStats(site.id);
         document.getElementById('metrics-' + site.id).innerText =
           'Times Opened: ' + updatedStats.count + ' | Last Opened: ' + updatedStats.lastOpened;
     
-        // For incognito-mode links, prevent navigation and show instructions.
         if (site.mode === 'incognito') {
           event.preventDefault();
           alert('This link is intended for incognito mode.\n\nRight-click the link and choose "Open link in incognito window", or copy the link and open it manually.');
@@ -171,7 +182,10 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <h3>${site.title}</h3>
+          <h3>
+            <img src="${getFlagUrl(site.flag)}" alt="Flag" class="flag-icon">
+            ${site.title}
+          </h3>
           <p>${site.description}</p>
           <div class="buttons">
             <a 
@@ -188,7 +202,6 @@
         `;
         container.appendChild(card);
     
-        // Add an event listener to update metrics and handle incognito instruction.
         const openLinkAnchor = document.getElementById('open-' + site.id);
         openLinkAnchor.addEventListener('mousedown', function(event) {
           handleLinkClick(event, site);
@@ -196,7 +209,7 @@
       });
     }
     
-    // Render both pre-production and production sections.
+    // Render both sections.
     renderCards(preprodWebsites, 'preprodList');
     renderCards(prodWebsites, 'prodList');
   </script>
